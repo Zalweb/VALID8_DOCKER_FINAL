@@ -1,12 +1,11 @@
 services:
   - type: web
     name: valid8-backend
-    env: docker
+    runtime: docker
     region: singapore
     plan: free
     dockerfilePath: ./Backend/Dockerfile
     dockerContext: ./Backend
-    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
@@ -15,17 +14,28 @@ services:
           property: connectionString
       - key: PYTHONUNBUFFERED
         value: "1"
+      - key: CORS_ALLOW_ORIGINS
+        value: "*"
 
   - type: web
     name: valid8-frontend
     runtime: static
-    buildCommand: cd Frontend && npm ci && npm run build
-    staticPublishPath: ./Frontend/dist
+    region: singapore
+    buildCommand: cd Frontend && npm ci && npx vite build
+    staticPublishPath: Frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        sync: false
+        fromService:
+          type: web
+          name: valid8-backend
+          envVarKey: RENDER_EXTERNAL_URL
 
 databases:
   - name: valid8-db
     databaseName: fastapi_db
-    user: valid8_user
+    region: singapore
+    plan: free

@@ -1,20 +1,26 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import users, events, programs, departments, auth, attendance 
+
+from app.routers import users, events, programs, departments, auth, attendance
 from app.services.face_recognition import FaceRecognitionService
 
 
 app = FastAPI()
 
-origins = [
-       "http://localhost:5173",
-       "http://127.0.0.1:5173"
-   ]
+raw_cors_origins = os.getenv(
+    "CORS_ALLOW_ORIGINS",
+    "http://localhost:5173,http://127.0.0.1:5173,*",
+)
+origins = [origin.strip() for origin in raw_cors_origins.split(",") if origin.strip()]
+allow_credentials = "*" not in origins
+
 # CORS setup
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
