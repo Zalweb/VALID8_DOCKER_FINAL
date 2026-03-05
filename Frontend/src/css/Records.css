@@ -1,0 +1,282 @@
+:root {
+  --primary-color: #162f65;
+  --hover-color: #1e3d85;
+  --text-color: #333;
+  --active-bg: rgba(255, 255, 255, 0.1);
+  --transition-speed: 0.3s;
+  --sidebar-width-expanded: 250px;
+  --sidebar-width-collapsed: 70px;
+  --table-offset: 80px;
+}
+
+.records-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.records-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 30px 30px 110px;
+  transition: padding-left var(--transition-speed) ease;
+}
+
+.records-header {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-left: var(--table-offset);
+  width: calc(100% - var(--table-offset));
+}
+
+.records-header h2 {
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.search-filter-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-left: var(--table-offset);
+  width: calc(100% - var(--table-offset));
+}
+
+.search-box {
+  position: relative;
+  flex-grow: 1;
+  max-width: 500px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 2px 10px rgba(52, 152, 219, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7f8c8d;
+}
+
+.table-responsive {
+  width: calc(100% - var(--table-offset));
+  margin-left: var(--table-offset);
+  overflow-x: auto;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background-color: white;
+  border: 2px solid var(--primary-color);
+}
+
+.records-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.records-table th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.records-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  color: #000000;
+}
+
+.records-table tr:last-child td {
+  border-bottom: none;
+}
+
+.records-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.records-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-badge.attended {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.absent {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.no-results {
+  text-align: center;
+  padding: 20px;
+  color: #7f8c8d;
+}
+
+/* Responsive Styles - Tablet */
+@media (max-width: 768px) {
+  .records-container {
+    padding: 20px 15px 20px 30px;
+  }
+
+  .records-header,
+  .search-filter-section,
+  .table-responsive {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .records-table {
+    display: block;
+  }
+
+  .records-table thead {
+    display: none;
+  }
+
+  .records-table tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .records-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: right;
+  }
+
+  .records-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 15px;
+    color: #2c3e50;
+    min-width: 100px;
+    text-align: left;
+  }
+
+  .status-badge {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Responsive Styles - Mobile */
+@media (max-width: 375px) {
+  .records-container {
+    padding: 15px 10px 15px 20px;
+  }
+
+  .records-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .search-input {
+    padding: 12px 15px 12px 35px;
+    font-size: 1rem;
+  }
+
+  .records-table td {
+    font-size: 0.95rem;
+    padding: 10px 8px;
+  }
+}
+
+/* Add to your Records.css */
+.status-badge-present {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.status-badge-absent {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.btn-refresh {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-refresh:disabled {
+  opacity: 0.65;
+}
+
+.loading-row {
+  text-align: center;
+  padding: 20px;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}

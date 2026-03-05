@@ -1,0 +1,428 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
+/* Base Styles */
+:root {
+  --primary-color: #162F65;
+  --secondary-color: #2C5F9E;
+  --accent-color: #4A90E2;
+  --text-color: #333;
+  --light-text: #666;
+  --background-light: rgba(255, 255, 255, 0.9);
+  --border-radius: 8px;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Home Page Styles */
+.home-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  gap: 2rem;
+}
+
+/* University Info Styles */
+.university-info {
+  text-align: center;
+  color: var(--primary-color);
+  max-width: 800px;
+  padding: 1rem;
+}
+
+.university-name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  color: var(--primary-color);
+}
+
+.divider {
+  height: 3px;
+  width: 100px;
+  background: var(--accent-color);
+  margin: 1rem auto;
+  border-radius: 3px;
+}
+
+.system-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--secondary-color);
+}
+
+.campus-location {
+  font-size: 1rem;
+  color: var(--light-text);
+  font-style: italic;
+}
+
+/* Form Container Styles */
+.form-container {
+  background: var(--background-light);
+  border-radius: var(--border-radius);
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+  box-shadow: var(--box-shadow);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.school-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Login Form Styles */
+.login-form-container {
+  width: 100%;
+}
+
+.user-login-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.user-icon {
+  color: var(--accent-color);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-icon {
+  color: var(--accent-color);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.password-input-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--light-text);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.toggle-password:hover {
+  color: var(--accent-color);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.remember-me input {
+  accent-color: var(--accent-color);
+}
+
+.forgot-password {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.login-button:hover {
+  background: var(--secondary-color);
+}
+
+.login-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.login-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--light-text);
+}
+
+.login-footer a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .home-page {
+    padding: 1rem;
+  }
+  
+  .university-name {
+    font-size: 1.5rem;
+  }
+  
+  .system-title {
+    font-size: 1.2rem;
+  }
+  
+  .campus-location {
+    font-size: 0.9rem;
+  }
+  
+  .form-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .university-name {
+    font-size: 1.3rem;
+  }
+  
+  .system-title {
+    font-size: 1rem;
+  }
+  
+  .form-container {
+    padding: 1.2rem;
+  }
+  
+  .form-input {
+    padding: 0.7rem 1rem;
+  }
+  
+  .login-button {
+    padding: 0.7rem;
+  }
+}
+
+/* Animation for form elements */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-form-container > * {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.login-form-container > *:nth-child(1) { animation-delay: 0.1s; }
+.login-form-container > *:nth-child(2) { animation-delay: 0.2s; }
+.login-form-container > *:nth-child(3) { animation-delay: 0.3s; }
+.login-form-container > *:nth-child(4) { animation-delay: 0.4s; }
+
+/* Home Page Background & Layout */
+.home-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  gap: 2rem;
+}
+
+/* University Info */
+.university-info {
+  text-align: center;
+  color: var(--primary-color);
+  max-width: 800px;
+  padding: 1rem;
+}
+
+.university-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #162F65;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.system-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2C5F9E;
+  margin-bottom: 0.5rem;
+}
+
+.campus-location {
+  font-size: 1rem;
+  color: #555;
+  font-style: italic;
+}
+
+/* Form Container */
+.form-container {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.logo-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.school-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .university-name {
+    font-size: 1.8rem;
+  }
+  .system-title {
+    font-size: 1.3rem;
+  }
+  .form-container {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page {
+    padding: 1rem;
+  }
+  .university-name {
+    font-size: 1.5rem;
+  }
+  .form-container {
+    padding: 1.5rem;
+  }
+}

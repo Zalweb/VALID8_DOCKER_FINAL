@@ -1,0 +1,294 @@
+VALID8 INTERVIEW ANSWERS
+
+1. Short introduction
+
+My assigned system is a university event attendance management system called Valid8.
+It runs using Docker.
+The system has a React frontend, a FastAPI backend, and a PostgreSQL database.
+It is used to manage users, events, attendance, departments, and programs.
+
+
+2. How to run the system in Docker
+
+These are the commands I will say and run during the interview:
+
+cd C:\Users\frien\Documents\VALID8_DOCKER_FINAL
+docker compose up --build -d
+docker compose exec backend python seed.py
+
+After that, I can open:
+
+Frontend:
+http://localhost:5173
+
+Backend:
+http://localhost:8000
+
+pgAdmin:
+http://localhost:5050
+
+If there is a known backend users error, I can run:
+
+docker compose exec backend python cleanup_orphaned_roles.py
+docker compose restart backend
+
+
+3. What the system does
+
+This system is for managing university events and attendance.
+It supports different users with different roles.
+
+Admin:
+- manage users
+- manage departments and programs
+- view reports
+
+Student:
+- view profile
+- view attendance records
+- view upcoming events
+
+SSG:
+- help manage attendance
+- record manual attendance
+- monitor attendance records
+
+Event Organizer:
+- create events
+- manage events
+
+
+4. How the system works
+
+When a user logs in, the frontend sends the email and password to the backend API.
+The backend checks the database.
+If the login is correct, the backend returns an access token.
+The frontend stores the token and uses it for protected pages.
+After login, the system redirects the user based on the user role.
+
+Example:
+- admin goes to admin dashboard
+- student goes to student dashboard
+- ssg goes to ssg dashboard
+- event organizer goes to event organizer dashboard
+
+
+5. Main parts of the system
+
+Frontend:
+The frontend is made with React and Vite.
+It shows the pages, dashboards, forms, and reports.
+
+Backend:
+The backend is made with FastAPI.
+It handles login, user management, event management, and attendance logic.
+
+Database:
+The database is PostgreSQL.
+It stores users, roles, events, attendance records, departments, and programs.
+In Docker, the database runs as its own container.
+The backend connects to it using the database URL.
+
+Docker:
+Docker Compose runs all services together on one laptop.
+This makes setup easier and more consistent.
+
+
+6. Main data in the system
+
+The important data in the system are:
+
+- users
+- roles
+- student profiles
+- ssg profiles
+- events
+- departments
+- programs
+- attendance records
+
+A user can have one or more roles.
+An event can be connected to departments, programs, and SSG members.
+Attendance records connect students to events.
+
+Database details I can explain:
+
+- database name: fastapi_db
+- database user: postgres
+- database password: postgres
+- database port: 5432
+- database container/service: db
+- backend connection string:
+  postgresql://postgres:postgres@db:5432/fastapi_db
+
+Important database tables:
+
+- users = stores account information
+- roles = stores role names like admin, student, ssg, and event-organizer
+- user_roles = connects users and roles
+- student_profiles = stores student details like student ID, department, program, and year level
+- ssg_profiles = stores SSG position details
+- events = stores event name, time, location, and status
+- departments = stores department names
+- programs = stores program names
+- attendances = stores time in, time out, status, and event attendance records
+
+How the database is used:
+
+When a user logs in, the backend checks the users table and related roles.
+When an admin creates or edits a user, the backend updates user-related tables.
+When an event organizer creates an event, the backend saves it in the events table.
+When attendance is recorded, the backend saves the record in the attendances table.
+
+Why the database is important:
+
+The database is the main storage of the system.
+Without the database, login, events, user management, and attendance tracking will not work.
+
+
+7. My role and contribution
+
+My role was mainly backend-related.
+I focused on understanding and checking the FastAPI backend, database connection, API behavior, and backend debugging.
+I studied how the frontend sends requests to the backend and how the backend processes data and saves it in PostgreSQL.
+I also checked important backend features like login, user management, event management, and attendance flow.
+
+One issue I studied was the users page bug.
+The backend returned a 500 error because some user-role records in the database were invalid.
+The fix was to clean broken role records and make the backend safer when returning user data.
+
+Simple version:
+
+My contribution was backend-focused. I studied the API flow, database behavior, and backend bugs, especially in user management.
+
+Backend tasks I can say in the interview:
+
+- I studied the FastAPI routes and how they handle requests
+- I checked how the backend connects to PostgreSQL
+- I reviewed backend logic for users, events, and attendance
+- I tested backend endpoints and checked logs when errors happened
+- I analyzed a backend bug in the users API and understood the fix
+
+If asked directly about my role:
+
+My role in the project is backend-related. I focused on the API, the database connection, and backend testing and debugging. I worked on understanding how the backend handles login, user management, events, and attendance records.
+
+
+8. Bug I can explain in the interview
+
+One real bug happened in the users API.
+Some user_roles rows had missing role data.
+Because of that, the backend crashed when it tried to return all users.
+That caused a 500 Internal Server Error.
+
+The fix was:
+- clean orphaned or broken user role rows in the database
+- add defensive filtering in the backend so invalid role entries do not crash the API
+
+
+9. Testing I can explain
+
+I can say that I tested:
+
+- if the system starts correctly in Docker
+- if the frontend can open in the browser
+- if the backend API responds correctly
+- if login works
+- if users page works
+- if event features can call the backend
+- if attendance features can connect to the database
+- if logs show backend errors when something fails
+
+I also checked API responses and logs to understand if the problem was in the browser, backend, or database.
+
+Because my role is backend-related, I can also say:
+
+- I tested backend routes
+- I checked backend error logs
+- I checked if database records match the API behavior
+- I verified if the backend returns correct responses like 200, 401, 403, or 500
+- I checked if invalid database data can break the backend
+
+
+10. Planned enhancements
+
+I found some realistic improvements for the system:
+
+1. Some frontend pages still use old or mock API paths.
+   These should be updated so all pages use the real FastAPI backend.
+
+2. Some automated tests are outdated.
+   The test files should be updated to match the current API routes and current models.
+
+3. The face recognition feature is not fully aligned between frontend and backend.
+   That part should be completed and tested end-to-end.
+
+4. Security can be improved.
+   The secret key and other sensitive values should be moved to environment variables.
+
+5. Data validation and error handling can still be improved so the system does not crash on bad records.
+
+
+11. Short answer for "What is this system?"
+
+This is a Dockerized university event attendance management system.
+It helps manage users, events, attendance, departments, and programs.
+It uses React for the frontend, FastAPI for the backend, PostgreSQL for the database, and Docker Compose for running everything together.
+
+
+12. Short answer for "Why use Docker?"
+
+Docker makes it easier to run the frontend, backend, and database together in one environment.
+It helps avoid setup problems between different laptops.
+
+
+13. Short answer for "What backend and database are used?"
+
+Backend:
+FastAPI
+
+Database:
+PostgreSQL
+
+
+14. Short answer for "How is access controlled?"
+
+Access is controlled by login tokens and user roles.
+After login, the system checks the user's roles and only allows pages or actions that match those roles.
+
+
+15. Best 1-minute answer
+
+My assigned system is a university event attendance management system called Valid8.
+It runs in Docker using a React frontend, a FastAPI backend, and a PostgreSQL database.
+The system supports different roles such as admin, student, SSG, and event organizer.
+Its main functions are login, role-based dashboards, event management, and attendance tracking.
+My role is backend-related, so my contribution focused on understanding the FastAPI backend, checking API behavior, testing database-related backend flow, and analyzing a real bug in the users API.
+I also identified improvements like removing old mock API calls, updating outdated tests, improving the face-recognition flow, and strengthening security and validation.
+
+
+16. If the teacher asks me to demonstrate the system
+
+I will do these steps:
+
+1. Open terminal in the project folder
+2. Run:
+   docker compose up --build -d
+3. Run:
+   docker compose exec backend python seed.py
+4. Open:
+   http://localhost:5173
+5. Explain that the backend is on:
+   http://localhost:8000
+6. Log in and show the dashboard
+7. Explain that different roles see different pages
+
+
+17. Final simple summary
+
+This project is a role-based university event attendance system.
+It works with Docker.
+The frontend talks to the FastAPI backend.
+The backend talks to PostgreSQL.
+The main features are login, user management, event management, attendance tracking, and reports.
+My role is backend-related, focused on API understanding, database connection, backend testing, and debugging.

@@ -1,0 +1,43 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.coverage
+**/htmlcov/
+**/venv/
+**/env/
+**/ENV/
+
+# Node / Frontend
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.vite/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Docker local data
+postgres_data/
+pgadmin_data/
+
+# Project runtime artifact
+**/face_encodings.pkl

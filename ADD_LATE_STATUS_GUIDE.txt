@@ -1,0 +1,289 @@
+ADD LATE STATUS GUIDE
+
+Goal:
+Add "late" as a valid attendance status in the backend.
+
+Important:
+This guide is only for adding the new status value.
+It does NOT automatically make students become late based on event time.
+That is a separate feature.
+
+==================================================
+1. WHAT FILES YOU NEED TO TOUCH
+==================================================
+
+You need to change these 3 main places:
+
+1) Backend/app/models/attendance.py
+   Reason:
+   This is the SQLAlchemy model and database enum used by the app.
+
+2) Backend/app/schemas/attendance.py
+   Reason:
+   This is the Pydantic schema used by FastAPI request/response validation.
+
+3) Backend/alembic/versions/
+   Reason:
+   PostgreSQL enum values must be updated in the database with a migration.
+
+Recommended extra review:
+
+4) Backend/app/routers/attendance.py
+   Reason:
+   Some reports assume only:
+   - present
+   - absent
+   - excused
+   If you add "late" but do not update reports, some summaries may be wrong.
+
+==================================================
+2. FIRST FILE: MODEL
+==================================================
+
+Open:
+Backend/app/models/attendance.py
+
+Find this enum:
+
+class AttendanceStatus(PyEnum):
+    PRESENT = "present"
+    ABSENT = "absent"
+    EXCUSED = "excused"
+
+Change it to:
+
+class AttendanceStatus(PyEnum):
+    PRESENT = "present"
+    LATE = "late"
+    ABSENT = "absent"
+    EXCUSED = "excused"
+
+Then find the PostgreSQL enum definition inside the Attendance model.
+
+You will see something like:
+
+status = Column(
+    PG_ENUM(
+        'present', 'absent', 'excused',
+        name='attendancestatus',
+        create_type=False
+    ),
+    default='present',
+    nullable=False
+)
+
+Change it to:
+
+status = Column(
+    PG_ENUM(
+        'present', 'late', 'absent', 'excused',
+        name='attendancestatus',
+        create_type=False
+    ),
+    default='present',
+    nullable=False
+)
+
+Why:
+The Python enum and the database enum must both know that "late" is valid.
+
+==================================================
+3. SECOND FILE: SCHEMA
+==================================================
+
+Open:
+Backend/app/schemas/attendance.py
+
+Find this enum:
+
+class AttendanceStatus(str, Enum):
+    PRESENT = "present"
+    ABSENT = "absent"
+    EXCUSED = "excused"
+
+Change it to:
+
+class AttendanceStatus(str, Enum):
+    PRESENT = "present"
+    LATE = "late"
+    ABSENT = "absent"
+    EXCUSED = "excused"
+
+Why:
+FastAPI uses this file to validate request and response values.
+If you forget this file, the backend may reject "late" even if the model allows it.
+
+==================================================
+4. THIRD FILE: DATABASE MIGRATION
+==================================================
+
+This part is required.
+
+Why:
+Your project uses PostgreSQL ENUM for attendance status.
+Even if Python code says "late" is allowed, PostgreSQL will still reject it
+until the database enum is updated.
+
+Step A:
+Open terminal in:
+Backend
+
+Step B:
+If `alembic` is not recognized, do this first in PowerShell:
+
+cd c:\Users\frien\Documents\VALID8_DOCKER_FINAL\Backend
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+Then create a new Alembic revision with:
+
+.\.venv\Scripts\alembic.exe revision -m "add late to attendance status"
+
+If you already have a working virtual environment activated, you can use:
+
+alembic revision -m "add late to attendance status"
+
+This will create a new file inside:
+Backend/alembic/versions/
+
+Step C:
+Open the new migration file and edit the upgrade() function.
+
+Add:
+
+def upgrade() -> None:
+    op.execute("ALTER TYPE attendancestatus ADD VALUE IF NOT EXISTS 'late'")
+
+Step D:
+For downgrade():
+
+PostgreSQL does not easily remove enum values.
+For a beginner-friendly version, you can leave a note like this:
+
+def downgrade() -> None:
+    pass
+
+That is acceptable for now if your teacher/project does not require
+full enum rollback support.
+
+Step E:
+Run the migration:
+
+.\.venv\Scripts\alembic.exe upgrade head
+
+If your virtual environment is already activated, this also works:
+
+alembic upgrade head
+
+==================================================
+5. WHERE "LATE" IS NOT AUTOMATIC YET
+==================================================
+
+Even after adding the enum, your app will NOT automatically mark students as late.
+
+Why:
+Your current attendance creation code still writes "present".
+
+Check these places:
+
+Backend/app/routers/attendance.py
+
+Look for these areas:
+
+- face scan attendance
+- manual attendance
+- bulk attendance
+
+Right now they set status to present.
+
+Examples you will find:
+
+status=AttendanceStatus.PRESENT
+
+or
+
+status="present"
+
+This means:
+"late" exists, but nothing uses it yet.
+
+==================================================
+6. RECOMMENDED EXTRA CHANGES
+==================================================
+
+If you only want to ADD the new status value, the 3 main steps above are enough.
+
+But to avoid broken summaries, review:
+
+Backend/app/routers/attendance.py
+
+Search for:
+
+"present"
+"absent"
+"excused"
+monthly_stats
+attendance_rate
+
+Why:
+Some code counts only "present", "absent", and "excused".
+If a record becomes "late", reports may ignore it or crash.
+
+Very important place:
+
+monthly_stats currently creates something like:
+
+{"present": 0, "absent": 0, "excused": 0}
+
+You should add:
+
+"late": 0
+
+or the code may fail when it sees attendance.status == "late".
+
+==================================================
+7. SIMPLE CHECKLIST
+==================================================
+
+Minimum required:
+
+[ ] Add LATE = "late" in Backend/app/models/attendance.py
+[ ] Add 'late' to the PG_ENUM values in Backend/app/models/attendance.py
+[ ] Add LATE = "late" in Backend/app/schemas/attendance.py
+[ ] Create Alembic migration
+[ ] Run alembic upgrade head
+
+Recommended:
+
+[ ] Review Backend/app/routers/attendance.py for reports and summaries
+[ ] Add "late" to any status count dictionaries
+[ ] Decide later how a student becomes late automatically
+
+==================================================
+8. IF YOU WANT TO TEST IT MANUALLY
+==================================================
+
+After migration, you can test by making one attendance record use:
+
+status="late"
+
+or
+
+status=AttendanceStatus.LATE
+
+If the save works and the API returns it correctly, the enum setup is working.
+
+==================================================
+9. VERY SHORT VERSION
+==================================================
+
+If you only remember one thing:
+
+To add a new enum value in this project, update:
+
+1) model enum
+2) schema enum
+3) PostgreSQL migration
+
+Without step 3, it will not work in the database.

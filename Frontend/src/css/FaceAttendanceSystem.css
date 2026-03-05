@@ -1,0 +1,73 @@
+.face-attendance-system {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .camera-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  video {
+    background: #333;
+    width: 100%;
+    max-width: 640px;
+  }
+  
+  .camera-placeholder {
+    width: 640px;
+    height: 480px;
+    background: #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .controls {
+    margin: 20px 0;
+  }
+  
+  button {
+    padding: 10px 15px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  button:hover {
+    background: #45a049;
+  }
+  
+  button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .student-info {
+    margin: 20px 0;
+  }
+  
+  .student-info input {
+    padding: 8px;
+    margin: 5px 0 15px;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .attendance-list {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .student-record {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
